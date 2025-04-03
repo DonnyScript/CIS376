@@ -1,0 +1,9 @@
+C:/Users/fatim/OneDrive/Documents/Arithma_Tech/build/Desktop_Qt_6_8_2_MinGW_64_bit-Debug/CMakeFiles/Arithma_Tech.dir
+C:/Users/fatim/OneDrive/Documents/Arithma_Tech/build/Desktop_Qt_6_8_2_MinGW_64_bit-Debug/CMakeFiles/edit_cache.dir
+C:/Users/fatim/OneDrive/Documents/Arithma_Tech/build/Desktop_Qt_6_8_2_MinGW_64_bit-Debug/CMakeFiles/rebuild_cache.dir
+C:/Users/fatim/OneDrive/Documents/Arithma_Tech/build/Desktop_Qt_6_8_2_MinGW_64_bit-Debug/CMakeFiles/list_install_components.dir
+C:/Users/fatim/OneDrive/Documents/Arithma_Tech/build/Desktop_Qt_6_8_2_MinGW_64_bit-Debug/CMakeFiles/install.dir
+C:/Users/fatim/OneDrive/Documents/Arithma_Tech/build/Desktop_Qt_6_8_2_MinGW_64_bit-Debug/CMakeFiles/install/local.dir
+C:/Users/fatim/OneDrive/Documents/Arithma_Tech/build/Desktop_Qt_6_8_2_MinGW_64_bit-Debug/CMakeFiles/install/strip.dir
+C:/Users/fatim/OneDrive/Documents/Arithma_Tech/build/Desktop_Qt_6_8_2_MinGW_64_bit-Debug/CMakeFiles/Arithma_Tech_autogen_timestamp_deps.dir
+C:/Users/fatim/OneDrive/Documents/Arithma_Tech/build/Desktop_Qt_6_8_2_MinGW_64_bit-Debug/CMakeFiles/Arithma_Tech_autogen.dir
