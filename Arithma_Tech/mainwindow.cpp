@@ -29,7 +29,7 @@
 #include <QSqlDatabase>
 #include <QMetaType>
 
-// 1) DropZone Implementation
+// 1) CIS476Project Implementation
 DropZone::DropZone(QWidget *parent)
     : QLabel(parent)
 {
@@ -43,7 +43,7 @@ DropZone::DropZone(QWidget *parent)
         "  border: 2px dashed #6c7eb7;"
         "  border-radius: 8px;"
         "  padding: 25px;"
-        "  background-color: #f0f4ff;"
+        "  background-color: #c0c0c0;" //  OLD color: f0f4ff
         "  color: #445277;"
         "  font-size: 14px;"
         "}"
@@ -58,7 +58,7 @@ void DropZone::dragEnterEvent(QDragEnterEvent *event)
             "  border: 3px dashed #4d7bef;"
             "  border-radius: 8px;"
             "  padding: 25px;"
-            "  background-color: #e6f0ff;"
+            "  background-color: #c0c0c0;" //OLD color: e6f0ff
             "  color: #2c5aa0;"
             "  font-weight: bold;"
             "  font-size: 14px;"
@@ -216,18 +216,40 @@ MainWindow::MainWindow(QWidget *parent)
     operationInProgress(false)
 {
 
+    setFixedSize(1100,800);
+
     QApplication::setStyle(QStyleFactory::create("Fusion"));
 
-    QPalette palette;
-    palette.setColor(QPalette::Window, QColor(250, 251, 252));
-    palette.setColor(QPalette::WindowText, QColor(65, 72, 86));
-    palette.setColor(QPalette::Base, Qt::white);
-    palette.setColor(QPalette::AlternateBase, QColor(240, 244, 249));
-    palette.setColor(QPalette::Button, QColor(247, 250, 252));
-    palette.setColor(QPalette::ButtonText, QColor(65, 72, 86));
-    palette.setColor(QPalette::Highlight, QColor(75, 139, 237));
-    palette.setColor(QPalette::HighlightedText, Qt::white);
-    QApplication::setPalette(palette);
+    QPalette darkPalette;
+
+
+    darkPalette.setColor(QPalette::Window, QColor(53, 53, 53));
+    darkPalette.setColor(QPalette::WindowText, Qt::white);
+
+    darkPalette.setColor(QPalette::Base, QColor(42,42,42));
+
+    darkPalette.setColor(QPalette::AlternateBase, QColor(66, 66, 66));
+
+    darkPalette.setColor(QPalette::Text, Qt::white);    // I added this for text color
+
+    darkPalette.setColor(QPalette::Button, QColor(53, 53, 53));
+
+    darkPalette.setColor(QPalette::ButtonText, QColor(53, 53, 53));
+
+    darkPalette.setColor(QPalette::Highlight, QColor(42, 130, 218));
+    darkPalette.setColor(QPalette::HighlightedText, Qt::black);
+
+    QApplication::setPalette(darkPalette);
+
+    //darkPalette.setColor(QPalette::Window, QColor(253, 251, 252));
+    //darkPalette.setColor(QPalette::WindowText, QColor(65, 72, 86));
+    //darkPalette.setColor(QPalette::Base, Qt::white);
+    //darkPalette.setColor(QPalette::AlternateBase, QColor(240, 244, 249));
+    //darkPalette.setColor(QPalette::Button, QColor(247, 250, 252));
+    //darkPalette.setColor(QPalette::ButtonText, QColor(65, 72, 86));
+    //darkPalette.setColor(QPalette::Highlight, QColor(75, 139, 237));
+    //darkPalette.setColor(QPalette::HighlightedText, Qt::white);
+
 
     QFont appFont("Segoe UI", 10);
     QApplication::setFont(appFont);
@@ -236,14 +258,26 @@ MainWindow::MainWindow(QWidget *parent)
     //Window properties
     setWindowTitle("Arithma-Tech");
     resize(600, 650);
-    setStyleSheet("QMainWindow { background-color: #f9fafb; }");
+   // setStyleSheet("QMainWindow { background-color: #f9fafb; }");
+    setStyleSheet("QMainWindow { background-color: #2e2e2e; }");
 
     //popup dialogs
     fileHistoryDialog = new FileHistoryDialog(this);
     userGuideDialog   = new UserGuideDialog(this);
 
-    //menu with "File History" and "User Guide"
+    //menu with "File History" and "User Guide"a
     QMenuBar *menuBarPtr = new QMenuBar(this);
+
+    menuBarPtr->setStyleSheet(
+        "QMenuBar::item{"
+        "color: #ffffff;"
+        "}"
+        "QMenuBar::item:selected {"
+        "  background-color: #df00ff;"  // hover color
+        "  color: #ffffff;"
+        "}"
+        );
+
     QAction *historyAction = new QAction("File History", this);
     connect(historyAction, &QAction::triggered, this, &MainWindow::showFileHistory);
     menuBarPtr->addAction(historyAction);
@@ -255,18 +289,37 @@ MainWindow::MainWindow(QWidget *parent)
     setMenuBar(menuBarPtr);
 
 
+    QWidget *outerWidget = new QWidget(this);
+
+    QHBoxLayout *outerLayout = new QHBoxLayout(outerWidget);
+    outerLayout->setContentsMargins(0, 0, 0, 0);
+    outerLayout->setSpacing(0);
+
     //central widget & main layout
     QWidget *central = new QWidget(this);
+    central->setFixedWidth(900);
+
+    outerLayout->addStretch();       // blank space on the left
+    outerLayout->addWidget(central); // your 900px widget
+    outerLayout->addStretch();       // blank space on the right
+
+    setCentralWidget(outerWidget);
+
+
     QVBoxLayout *mainLayout = new QVBoxLayout(central);
+
     mainLayout->setSpacing(16);
+    mainLayout->setAlignment(Qt::AlignCenter);
     mainLayout->setContentsMargins(24, 24, 24, 24);
+
 
     // Title
     QLabel *titleLabel = new QLabel("Arithma-Tech", central);
     titleLabel->setStyleSheet(
         "QLabel {"
-        "  color: #2c3e50;"
-        "  font-size: 24px;"
+        //"  color: #2c3e50;" // 4b0082
+        "  color: #df00ff;"   // Light Purple
+        "  font-size: 48px;" //was 24px
         "  font-weight: bold;"
         "  margin-bottom: 10px;"
         "}"
@@ -281,7 +334,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     // Subtitle
     subtitleLabel = new QLabel("Advanced Data Compression Using Arithmetic Encoding", central);
-    subtitleLabel->setStyleSheet("QLabel { font-size: 14px; color: #555; }");
+    subtitleLabel->setStyleSheet("QLabel { font-size: 14px; color: #c0c0c0; }");
     subtitleLabel->setAlignment(Qt::AlignHCenter);
 
     // Description
@@ -292,7 +345,7 @@ MainWindow::MainWindow(QWidget *parent)
         central
         );
     descriptionLabel->setAlignment(Qt::AlignHCenter);
-    descriptionLabel->setStyleSheet("QLabel { color: #666; }");
+    descriptionLabel->setStyleSheet("QLabel { color: #c0c0c0; }");
     descriptionLabel->setWordWrap(true);
     inputModeGroup = new QGroupBox("", central);
     inputModeGroup->setStyleSheet(
@@ -302,7 +355,7 @@ MainWindow::MainWindow(QWidget *parent)
         "  border-radius: 8px;"
         "  margin-top: 12px;"
         "  padding-top: 20px;"
-        "  background-color: #ffffff;"
+        "  background-color: #555555 ;" // Color of the Text/File Input box
         "}"
         );
 
@@ -321,9 +374,10 @@ MainWindow::MainWindow(QWidget *parent)
 
     // Text input widget
     textInputWidget = new QWidget(central);
+    //textInputWidget->setFixedSize(200, 150);
     textInputWidget->setStyleSheet(
         "QWidget {"
-        "  background-color: #ffffff;"
+        "  background-color: #555555;"
         "  border: 1px solid #dce1e8;"
         "  border-radius: 8px;"
         "}"
@@ -332,8 +386,8 @@ MainWindow::MainWindow(QWidget *parent)
         QVBoxLayout *textLayout = new QVBoxLayout(textInputWidget);
         textLayout->setContentsMargins(16, 16, 16, 16);
 
-        QLabel *textLabel = new QLabel("Enter Text:", textInputWidget);
-        textLabel->setStyleSheet("QLabel { font-weight: bold; color: #445277; }");
+        QLabel *textLabel = new QLabel("Enter Text below", textInputWidget);
+        textLabel->setStyleSheet("QLabel { font-weight: bold; color: #c0c0c0; }");
 
         textInput = new QTextEdit(textInputWidget);
         textInput->setStyleSheet(
@@ -341,7 +395,8 @@ MainWindow::MainWindow(QWidget *parent)
             "  border: 1px solid #c5d0e6;"
             "  border-radius: 5px;"
             "  padding: 8px;"
-            "  background-color: #f9fafb;"
+            "  background-color: #c0c0c0;"
+            "  color: #000000;"
             "  font-family: 'Consolas', monospace;"
             "}"
             );
@@ -355,7 +410,7 @@ MainWindow::MainWindow(QWidget *parent)
     fileInputWidget = new QWidget(central);
     fileInputWidget->setStyleSheet(
         "QWidget {"
-        "  background-color: #ffffff;"
+        "  background-color: #555555 ;"
         "  border: 1px solid #dce1e8;"
         "  border-radius: 8px;"
         "}"
@@ -365,13 +420,14 @@ MainWindow::MainWindow(QWidget *parent)
         fileLayout->setContentsMargins(16, 16, 16, 16);
 
         dropZone = new DropZone(fileInputWidget);
+        //dropZone->setFixedSize(200, 200); //White file dropzone resize
         connect(dropZone, &DropZone::fileDropped, this, &MainWindow::handleDroppedFile);
 
         QHBoxLayout *fileSelectionLayout = new QHBoxLayout;
         fileSelectionLayout->setSpacing(6);
 
         selectedFileLabel = new QLabel("No file selected", fileInputWidget);
-        selectedFileLabel->setStyleSheet("QLabel { color: #666f7f; padding: 6px; }");
+        selectedFileLabel->setStyleSheet("QLabel { color: #808890; padding: 6px; }");
 
         cancelFileButton = new QToolButton(fileInputWidget);
         cancelFileButton->setText("x");
@@ -380,10 +436,10 @@ MainWindow::MainWindow(QWidget *parent)
             "QToolButton {"
             "  border: none;"
             "  font-size: 12px;"
-            "  color: #666;"
+            "  color: #c0c0c0;"
             "}"
             "QToolButton:hover {"
-            "  color: #333;"
+            "  color: #df00ff;"
             "}"
             );
         cancelFileButton->hide();
@@ -392,14 +448,14 @@ MainWindow::MainWindow(QWidget *parent)
         browseButton = new QPushButton("Browse...", fileInputWidget);
         browseButton->setStyleSheet(
             "QPushButton {"
-            "  background-color: #f0f4ff;"
-            "  color: #4b7bef;"
+            "  background-color: #555555;"
+            "  color: white;"
             "  padding: 8px 16px;"
             "  border: 1px solid #c5d0e6;"
             "  border-radius: 4px;"
             "  font-weight: bold;"
             "}"
-            "QPushButton:hover { background-color: #e1eaff; }"
+            "QPushButton:hover { background-color: #df00ff; }"
             "QPushButton:pressed { background-color: #d6e1ff; }"
             );
         connect(browseButton, &QPushButton::clicked, this, &MainWindow::browseFile);
@@ -417,7 +473,7 @@ MainWindow::MainWindow(QWidget *parent)
     actionWidget = new QWidget(central);
     actionWidget->setStyleSheet(
         "QWidget {"
-        "  background-color: #ffffff;"
+        "  background-color: #555555;" // ffffff
         "  border: 1px solid #dce1e8;"
         "  border-radius: 8px;"
         "}"
@@ -432,30 +488,30 @@ MainWindow::MainWindow(QWidget *parent)
         compressButton = new QPushButton("Compress", actionWidget);
         compressButton->setStyleSheet(
             "QPushButton {"
-            "  background-color: #4b7bef;"
+            "  background-color: #555555;" //  4b7bef
             "  color: white;"
             "  padding: 10px 24px;"
             "  border-radius: 4px;"
             "  font-weight: bold;"
             "}"
-            "QPushButton:hover { background-color: #3d6edf; }"
-            "QPushButton:pressed { background-color: #3260cc; }"
-            "QPushButton:disabled { background-color: #a1b2d8; }"
+            "QPushButton:hover { background-color: #df00ff; }" //  3d6edf
+            "QPushButton:pressed { background-color: #df00ff; }" //  3260cc
+            "QPushButton:disabled { background-color: #df00ff; }" //
             );
         compressButton->setMinimumWidth(120);
 
         decompressButton = new QPushButton("Decompress", actionWidget);
         decompressButton->setStyleSheet(
             "QPushButton {"
-            "  background-color: #6c7eb7;"
+            "  background-color: #555555;" //6c7eb7
             "  color: white;"
             "  padding: 10px 24px;"
             "  border-radius: 4px;"
             "  font-weight: bold;"
             "}"
-            "QPushButton:hover { background-color: #5c6ea7; }"
-            "QPushButton:pressed { background-color: #4f6194; }"
-            "QPushButton:disabled { background-color: #a1b2d8; }"
+            "QPushButton:hover { background-color: #df00ff; }"
+            "QPushButton:pressed { background-color: #df00ff; }"
+            "QPushButton:disabled { background-color: #df00ff; }"
             );
         decompressButton->setMinimumWidth(120);
 
@@ -472,7 +528,7 @@ MainWindow::MainWindow(QWidget *parent)
         progressLayout->setContentsMargins(0, 16, 0, 0);
 
         QLabel *progressLabel = new QLabel("Progress", progressWidget);
-        progressLabel->setStyleSheet("QLabel { color: #445277; font-weight: bold; }");
+        progressLabel->setStyleSheet("QLabel { color: #c0c0c0; font-weight: bold; }"); //  445277
         progressLabel->setAlignment(Qt::AlignLeft);
 
         progressBar = new QProgressBar(progressWidget);
@@ -484,11 +540,11 @@ MainWindow::MainWindow(QWidget *parent)
             "  border: 1px solid #dce1e8;"
             "  border-radius: 4px;"
             "  text-align: center;"
-            "  background-color: #f0f4ff;"
+            "  background-color: #c0c0c0;" // f0f4ff
             "  color: #445277;"
             "}"
             "QProgressBar::chunk {"
-            "  background-color: #4b7bef;"
+            "  background-color: #df00ff;"
             "  border-radius: 3px;"
             "}"
             );
@@ -504,7 +560,7 @@ MainWindow::MainWindow(QWidget *parent)
             "QLabel {"
             "  color: #666f7f;"
             "  padding: 8px;"
-            "  background-color: #f0f4ff;"
+            "  background-color: #c0c0c0;" // f0f4ff
             "  border: 1px solid #dce1e8;"
             "  border-radius: 4px;"
             "}"
@@ -527,7 +583,7 @@ MainWindow::MainWindow(QWidget *parent)
     mainLayout->addWidget(fileInputWidget);
     mainLayout->addWidget(actionWidget);
 
-    setCentralWidget(central);
+   // setCentralWidget(central);
 
     // Default to file mode
     fileModeRadio->setChecked(true);
@@ -678,7 +734,7 @@ void MainWindow::clearFileSelection()
     currentFilePath.clear();
     selectedFileLabel->setText("No file selected");
     selectedFileLabel->setStyleSheet(
-        "QLabel { color: #666f7f; padding: 6px; }");
+        "QLabel { color: white; padding: 6px; }");
     cancelFileButton->hide();
     statusLabel->setText("File selection cleared");
 }
